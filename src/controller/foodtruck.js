@@ -58,12 +58,14 @@ export default({ config, db }) => {
 
   // 'v1/foodtruck/:id'
   api.delete('/:id', (req, res) => {
-    Foodtruck.findById(req.params.id, (err, foodtruck) => {
+    Foodtruck.remove({
+      _id: req.params.id
+    }, (err, foodtruck) => {
       if(err) {
         res.send(err);
       }
-      
-    })
-  })
+      res.json({message: "Foodtruck successfully deleted!"});
+    });
+  });
   return api;
 }
