@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { Router } from 'express';
 import Foodtruck from '../model/foodtruck';
+import Review from '../model/review';
 
 export default({ config, db }) => {
   let api = Router();
@@ -73,7 +74,7 @@ export default({ config, db }) => {
 
   // add review for a specific foodtruck id
   // 'v1/foodtruck/reviews/add/:id'
-  api.post('reviews/add/:id', (req, res) => {
+  api.post('/reviews/add/:id', (req, res) => {
     Foodtruck.findById(req.params.id, (err, foodtruck) => {
       if(err) {
         res.send(err);
@@ -81,12 +82,12 @@ export default({ config, db }) => {
       let newReview = new Review();
       newReview.title = req.body.title;
       newReview.text = req.body.text;
-      newReivew.foodtruck = foodtruck._id
+      newReview.foodtruck = foodtruck._id
       newReview.save((err, review) => {
         if(err) {
           res.send(err);
         }
-        foodtruck.reviews.push(newReivew);
+        foodtruck.reviews.push(newReview);
         foodtruck.save(err => {
           if(err) {
             res.send(err);
