@@ -108,5 +108,16 @@ export default({ config, db }) => {
       res.json(reviews);
     });
   });
+
+  // get foodtrucks based on a foodtype
+  // 'v1/foodtruck/foodtype/:foodtype'
+  api.get('/foodtype/:foodtype', (req, res) => {
+    Foodtruck.find({foodtype: req.params.foodtype}, (err, foodtrucks) => {
+      if(err) {
+        res.send(err);
+      }
+      res.json(foodtrucks);
+    });
+  });
   return api;
 }
