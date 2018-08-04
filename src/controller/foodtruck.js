@@ -10,6 +10,9 @@ export default({ config, db }) => {
   api.post('/add', (req, res) => {
     let newFoodT = new Foodtruck();
     newFoodT.name = req.body.name;
+    newFoodT.foodtype = req.body.foodtype;
+    newFoodT.avgcost = req.body.avgcost;
+    newFoodT.geometry.coordinates = req.body.geometry.coordinates;
 
     newFoodT.save(err => {
       if (err) {
@@ -65,6 +68,32 @@ export default({ config, db }) => {
         res.send(err);
       }
       res.json({message: "Foodtruck successfully deleted!"});
+    });
+  });
+
+  // add review for a specific foodtruck id
+  // 'v1/foodtruck/reviews/add/:id'
+  api.post('reviews/add/:id', (req, res) => {
+    Foodtruck.findById(req.params.id, (err, foodtruck) => {
+      if(err) {
+        res.send(err);
+      }
+      let newReview = new Review();
+      newReview.title = req.body.title;
+      newReview.text = req.body.text;
+      newReivew.foodtruck = foodtruck._id
+      newReview.save((err, review) => {
+        if(err) {
+          res.send(err);
+        }
+        foodtruck.reviews.push(newReivew);
+        foodtruck.save(err => {
+          if(err) {
+            res.send(err);
+          }
+          res.json({message: "Food truck review saved!"});
+        });
+      });
     });
   });
   return api;
