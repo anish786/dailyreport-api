@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 
 const TOKENTIME = 60*60*24*30; //token valid for 30 days
-const SECRET = ""; //add your own secret string (keep it private)
+const SECRET = "W3 Hav3 th3 kn0w h0w"; //add your own secret string (keep it private)
 
 let authenticate = expressJwt({secret: SECRET });
 let generateAccessToken = (req, res, next) => {

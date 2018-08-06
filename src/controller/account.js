@@ -13,7 +13,9 @@ export default ({ config, db }) => {
 
   // 'v1/account/register'
   api.post('/register', (req, res) => {
-    Account.register(new Account({username: req.body.email}), req.body.password, function(err, account) {
+    Account.register(new Account({
+      username: req.body.email
+    }), req.body.password, function(err, account) {
       if(err) {
         res.send(err);
       }
